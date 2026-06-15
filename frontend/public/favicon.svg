@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Center Core -->
+  <circle cx="50" cy="50" r="12" fill="#06b6d4" />
+  <circle cx="50" cy="50" r="6" fill="#ffffff" />
+  
+  <!-- Orbital Rings -->
+  <ellipse cx="50" cy="50" rx="40" ry="15" fill="none" stroke="#06b6d4" stroke-width="4" transform="rotate(30 50 50)" />
+  <ellipse cx="50" cy="50" rx="40" ry="15" fill="none" stroke="#f59e0b" stroke-width="4" transform="rotate(-30 50 50)" />
+  <ellipse cx="50" cy="50" rx="40" ry="15" fill="none" stroke="#3b82f6" stroke-width="4" transform="rotate(90 50 50)" />
+</svg>
