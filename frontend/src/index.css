@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Mode (Default) - Soft Amber Tech */
+    --tech-bg: 24, 24, 27;
+    --tech-surface: 39, 39, 42;
+    --tech-border: 251, 191, 36;
+    --tech-accent-light: 252, 211, 77;
+    --tech-accent-dark: 245, 158, 11;
+    --tech-text: 255, 255, 255;
+    --tech-text-muted: 212, 212, 216;
+    --tech-glow-color: rgba(252, 211, 77, 0.25);
+  }
+
+  [data-theme='light'] {
+    /* Light Mode - Soft Amber Tech */
+    --tech-bg: 250, 250, 250;
+    --tech-surface: 244, 244, 245;
+    --tech-border: 217, 119, 6;
+    --tech-accent-light: 217, 119, 6;
+    --tech-accent-dark: 146, 64, 14;
+    --tech-text: 0, 0, 0;
+    --tech-text-muted: 63, 63, 70;
+    --tech-glow-color: rgba(217, 119, 6, 0.2);
+  }
+
+  body {
+    background-color: rgb(var(--tech-bg));
+    color: rgb(var(--tech-text));
+    @apply font-sans antialiased overflow-x-hidden transition-colors duration-500;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--tech-bg));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--tech-border));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--tech-accent-light));
+  box-shadow: 0 0 8px var(--tech-glow-color);
+}
+
+/* Typography Utility Classes */
+.font-display {
+  font-family: 'Orbitron', sans-serif;
+}
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Glowing Neon Elements using CSS Variables */
+.glow-text {
+  text-shadow: 0 0 8px var(--tech-glow-color), 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.glow-border {
+  box-shadow: 0 0 10px var(--tech-glow-color), inset 0 0 10px var(--tech-glow-color);
+}
+.glow-shadow {
+  box-shadow: 0 0 20px var(--tech-glow-color);
+}
+
+/* Cyber scan line simulation */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    transparent 50%,
+    rgba(var(--tech-border), 0.03) 50%,
+    rgba(var(--tech-border), 0.03)
+  );
+  background-size: 100% 4px;
+}
+
+/* Telemetry Grid Background Overlay */
+.cyber-grid-overlay {
+  background-image: radial-gradient(rgba(var(--tech-border), 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Animations */
+@keyframes cyber-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.animate-cyber-scan {
+  animation: cyber-scan 8s linear infinite;
+}
+
+@keyframes slow-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-slow-rotate {
+  animation: slow-rotate 20s linear infinite;
+}
+
+/* Keep auth fields dark even when browser autofill is applied */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-text-fill-color: #ffffff;
+	-webkit-box-shadow: 0 0 0px 1000px #0d1527 inset;
+	box-shadow: 0 0 0px 1000px #0d1527 inset;
+	transition: background-color 5000s ease-in-out 0s;
+}
