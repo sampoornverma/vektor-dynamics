@@ -257,12 +257,21 @@ export default function ThreeDGlobeCanvas() {
 			window.addEventListener('touchmove', handleTouchMove);
 			window.addEventListener('touchend', handleMouseUp);
 
-			// 6. Animation loop
+			// 6. Intersection Observer for Performance
+			let isVisible = true;
+			const observer = new IntersectionObserver((entries) => {
+				isVisible = entries[0].isIntersecting;
+			}, { threshold: 0 });
+			observer.observe(currentMount);
+
+			// 7. Animation loop
 			const clock = new THREE.Clock();
 
 			const animate = () => {
 				if (!isMounted) return;
 				animationFrameId = requestAnimationFrame(animate);
+				
+				if (!isVisible) return; // Pause rendering when off-screen
 
 				const time = clock.getElapsedTime();
 
@@ -296,6 +305,7 @@ export default function ThreeDGlobeCanvas() {
 			// Clean up function inside try block (returned on successful init)
 			return () => {
 				isMounted = false;
+				observer.disconnect();
 				dom.removeEventListener('mousedown', handleMouseDown);
 				window.removeEventListener('mousemove', handleMouseMove);
 				window.removeEventListener('mouseup', handleMouseUp);

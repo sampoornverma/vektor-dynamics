@@ -210,7 +210,12 @@ export default function ThreeDDroneCanvas({ scrollReact = true }) {
 			const ambientLight = new THREE.AmbientLight(0x070b13, 0.8);
 			scene.add(ambientLight);
 
-			// 7. Interaction and Reactivity variables
+			// 7. Intersection Observer for Performance
+			let isVisible = true;
+			const observer = new IntersectionObserver((entries) => {
+				isVisible = entries[0].isIntersecting;
+			}, { threshold: 0 });
+			observer.observe(currentMount);
 
 			// 8. Animation loop
 			const clock = new THREE.Clock();
@@ -218,6 +223,8 @@ export default function ThreeDDroneCanvas({ scrollReact = true }) {
 			const animate = () => {
 				if (!isMounted) return;
 				animationFrameId = requestAnimationFrame(animate);
+				
+				if (!isVisible) return; // Pause rendering when off-screen
 
 				const time = clock.getElapsedTime();
 
@@ -290,6 +297,7 @@ export default function ThreeDDroneCanvas({ scrollReact = true }) {
 			// Clean up function inside try block (returned on successful init)
 			return () => {
 				isMounted = false;
+				observer.disconnect();
 				window.removeEventListener('resize', handleResize);
 				cancelAnimationFrame(animationFrameId);
 

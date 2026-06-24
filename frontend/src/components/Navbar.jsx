@@ -25,7 +25,7 @@ export default function Navbar() {
 					{/* Logo */}
 					<Link to="/" className="flex items-center group">
 						<img 
-							src="/logo.png" 
+							src={`${import.meta.env.BASE_URL}logo.png`} 
 							alt="Vektor Dynamics Logo" 
 							className="h-12 md:h-16 w-auto object-contain transition-all duration-500 scale-[2.0] origin-left -ml-4"
 							style={{ 

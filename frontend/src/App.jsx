@@ -6,12 +6,14 @@ import Careers from './pages/Careers.jsx';
 import Contact from './pages/Contact.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
+import InitialLoader from './components/InitialLoader.jsx';
 
 import { ThemeProvider } from './lib/ThemeContext.jsx';
 
 export default function App() {
 	return (
 		<ThemeProvider>
+			<InitialLoader />
 			<CustomCursor />
 			<BrowserRouter>
 				<ScrollToTop />

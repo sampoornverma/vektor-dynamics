@@ -4,6 +4,7 @@ import Footer from '../components/Footer.jsx';
 import api from '../api/interceptor.js';
 import { Mail, MapPin, Phone, Terminal, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { useTheme } from '../lib/ThemeContext.jsx';
+import InteractiveTerminal from '../components/InteractiveTerminal.jsx';
 
 export default function Contact() {
 	const { theme } = useTheme();
@@ -142,6 +143,11 @@ export default function Contact() {
 									<div className="absolute w-1.5 h-1.5 rounded-full bg-tech-accent-light top-2 left-6"></div>
 								</div>
 								<span className="mt-4 uppercase tracking-[0.25em]">Radar Ping: Active</span>
+							</div>
+
+							{/* Moved Terminal from Footer */}
+							<div className="mt-6">
+								<InteractiveTerminal />
 							</div>
 						</div>
 

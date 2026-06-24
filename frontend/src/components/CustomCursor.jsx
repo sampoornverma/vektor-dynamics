@@ -1,17 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function CustomCursor() {
-	const [position, setPosition] = useState({ x: -100, y: -100 });
+	const cursorRef = useRef(null);
 	const [isPointer, setIsPointer] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
+	const [isTouchDevice, setIsTouchDevice] = useState(false);
 
 	useEffect(() => {
+		// Detect touch devices (phones/tablets)
+		if (window.matchMedia('(pointer: coarse)').matches) {
+			setIsTouchDevice(true);
+			return;
+		}
+
 		const updatePosition = (e) => {
-			setPosition({ x: e.clientX, y: e.clientY });
+			if (cursorRef.current) {
+				cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+			}
 		};
 
-		const updatePointerState = () => {
-			const target = document.elementFromPoint(position.x, position.y);
+		const updatePointerState = (e) => {
+			const target = document.elementFromPoint(e.clientX, e.clientY);
 			if (target) {
 				const isClickable = 
 					window.getComputedStyle(target).cursor === 'pointer' ||
@@ -26,23 +35,23 @@ export default function CustomCursor() {
 		const handleMouseLeave = () => setIsHidden(true);
 		const handleMouseEnter = () => setIsHidden(false);
 
-		window.addEventListener('mousemove', (e) => {
+		const handleMouseMove = (e) => {
 			updatePosition(e);
-			// We delay pointer check slightly to ensure position is updated
-			requestAnimationFrame(updatePointerState);
-		});
-		
+			updatePointerState(e);
+		};
+
+		window.addEventListener('mousemove', handleMouseMove);
 		document.addEventListener('mouseleave', handleMouseLeave);
 		document.addEventListener('mouseenter', handleMouseEnter);
 
 		return () => {
-			window.removeEventListener('mousemove', updatePosition);
+			window.removeEventListener('mousemove', handleMouseMove);
 			document.removeEventListener('mouseleave', handleMouseLeave);
 			document.removeEventListener('mouseenter', handleMouseEnter);
 		};
-	}, [position.x, position.y]);
+	}, []);
 
-	if (isHidden) return null;
+	if (isTouchDevice || isHidden) return null;
 
 	return (
 		<>
@@ -53,9 +62,10 @@ export default function CustomCursor() {
 			`}</style>
 			
 			<div 
-				className="fixed top-0 left-0 pointer-events-none z-[9999] transition-transform duration-75 ease-out"
+				ref={cursorRef}
+				className="fixed top-0 left-0 pointer-events-none z-[9999]"
 				style={{ 
-					transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+					transform: `translate3d(-100px, -100px, 0)`,
 				}}
 			>
 				{/* Hollow Delta / Tailless Pointer SVG */}

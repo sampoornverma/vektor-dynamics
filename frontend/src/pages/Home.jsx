@@ -1,47 +1,15 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import ThreeDDroneCanvas from '../components/ThreeDDroneCanvas.jsx';
-import ThreeDGlobeCanvas from '../components/ThreeDGlobeCanvas.jsx';
 import ScrollReveal from '../components/ScrollReveal.jsx';
 import CountUp from '../components/CountUp.jsx';
 import HackerText from '../components/HackerText.jsx';
-import { Shield, Cpu, Activity, Play, Zap, ArrowDown, ChevronRight, Terminal, CheckCircle } from 'lucide-react';
+import { Shield, Cpu, Activity, ArrowDown, CheckCircle, Zap, Play, Terminal } from 'lucide-react';
+import ThreeDDroneCanvas from '../components/ThreeDDroneCanvas.jsx';
 
 export default function Home() {
 	// Interactive asset switcher
 	const [activeAsset, setActiveAsset] = useState(1);
-
-	// Scroll tracking for drone fly-out
-	const [droneFlying, setDroneFlying] = useState(false);
-	const [scrollPercent, setScrollPercent] = useState(0);
-
-	useEffect(() => {
-		const onScroll = () => {
-			const y = window.scrollY;
-			const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-			setScrollPercent(maxScroll > 0 ? y / maxScroll : 0);
-			setDroneFlying(y > 150);
-		};
-		window.addEventListener('scroll', onScroll, { passive: true });
-		onScroll();
-		return () => window.removeEventListener('scroll', onScroll);
-	}, []);
-
-	// Drone position based on scroll — uses only top+left so CSS can interpolate smoothly
-	const getDroneFloatStyle = () => {
-		if (!droneFlying) {
-			// Start near the hero box position (top-right area)
-			return { top: '200px', left: 'calc(100vw - 220px)' };
-		}
-		if (scrollPercent <= 0.5) {
-			// Top-right corner
-			return { top: '100px', left: 'calc(100vw - 200px)' };
-		} else {
-			// Bottom-left corner
-			return { top: 'calc(100vh - 200px)', left: '20px' };
-		}
-	};
 
 	// Simulated launch console modal
 	const [isLaunching, setIsLaunching] = useState(false);
@@ -132,41 +100,16 @@ export default function Home() {
 							<ScrollReveal direction="up" delay={100}>
 								<div className="space-y-1">
 									<span className="text-[12px] font-mono text-tech-accent-light font-bold uppercase tracking-[0.4em] block">
-										Jatayu Series
+										Our Flagship Platform
 									</span>
 									<h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-tech-text font-display uppercase leading-tight">
 										UAV<br />
 									<HackerText 
 										as="span" 
-										text="The Jatayu Platform" 
+										text="Jatayu Series" 
 										className="block text-tech-accent-light glow-text" 
 									/>
 								</h1>
-								</div>
-							</ScrollReveal>
-
-							{/* Description */}
-							<ScrollReveal direction="up" delay={200}>
-								<p className="text-tech-muted text-base sm:text-lg max-w-xl leading-relaxed">
-									The definitive structural foundation for law enforcement, emergency response, and disaster operations. Engineered for high-capacity heavy lifting in extreme environments across public safety, fire services, and medical emergencies.
-								</p>
-							</ScrollReveal>
-
-							{/* HUD Telemetry Quick Readouts */}
-							<ScrollReveal direction="up" delay={300}>
-								<div className="grid grid-cols-3 gap-4 border-y border-tech-border/10 py-6 max-w-lg font-mono">
-									<div className="space-y-1">
-										<span className="text-[10px] text-tech-muted uppercase tracking-wider block">Payload</span>
-										<span className="text-xl sm:text-2xl font-bold text-tech-text tracking-wide">7 kg</span>
-									</div>
-									<div className="space-y-1">
-										<span className="text-[10px] text-tech-muted uppercase tracking-wider block">Frame</span>
-										<span className="text-xl sm:text-2xl font-bold text-tech-text tracking-wide">CF-650</span>
-									</div>
-									<div className="space-y-1">
-										<span className="text-[10px] text-tech-muted uppercase tracking-wider block">Stability</span>
-										<span className="text-xl sm:text-2xl font-bold text-tech-text tracking-wide">Grade-A</span>
-									</div>
 								</div>
 							</ScrollReveal>
 
@@ -204,7 +147,7 @@ export default function Home() {
 											onClick={() => setActiveAsset(1)}
 											className={`flex items-center justify-center p-3 rounded border font-mono text-xs uppercase tracking-wider transition-all ${
 												activeAsset === 1
-													? 'border-tech-accent-light/40 bg-tech-accent-light/10 text-tech-text shadow-[0_0_10px_rgba(0,255,204,0.15)]'
+													? 'border-tech-accent-light/40 bg-tech-accent-light/10 text-tech-text shadow-[0_0_10px_rgba(252,211,77,0.15)]'
 													: 'border-tech-border/10 bg-transparent text-tech-muted hover:text-gray-300'
 											}`}
 										>
@@ -214,7 +157,7 @@ export default function Home() {
 											onClick={() => setActiveAsset(2)}
 											className={`flex items-center justify-center p-3 rounded border font-mono text-xs uppercase tracking-wider transition-all ${
 												activeAsset === 2
-													? 'border-tech-accent-light/40 bg-tech-accent-light/10 text-tech-text shadow-[0_0_10px_rgba(0,255,204,0.15)]'
+													? 'border-tech-accent-light/40 bg-tech-accent-light/10 text-tech-text shadow-[0_0_10px_rgba(252,211,77,0.15)]'
 													: 'border-tech-border/10 bg-transparent text-tech-muted hover:text-gray-300'
 											}`}
 										>
@@ -238,7 +181,7 @@ export default function Home() {
 						</div>
 
 						{/* Right Column: 3D Drone Canvas viewport */}
-						<div className="lg:col-span-5 h-[500px] w-full relative">
+						<div className="lg:col-span-5 h-[500px] w-full relative mt-12 lg:mt-0">
 							{/* HUD Corner Accents */}
 							<div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-accent-light/40 pointer-events-none"></div>
 							<div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-tech-accent-light/40 pointer-events-none"></div>
@@ -251,38 +194,22 @@ export default function Home() {
 								<div className="absolute w-56 h-56 rounded-full border border-tech-border/10"></div>
 							</div>
 
-							<div className="w-full h-full border border-tech-border/10 bg-tech-surface/40 rounded-lg relative">
+							<div className="w-full h-full border border-tech-border/10 bg-tech-surface/40 rounded-lg relative overflow-hidden">
 								<div className="absolute top-3 left-4 flex items-center space-x-2 font-mono text-[10px] text-tech-accent-light/60 z-20">
 									<span className="w-2 h-2 rounded-full bg-tech-accent-dark animate-ping"></span>
 									<span>LIVE TELEMETRY VIEWPORT: CF-650</span>
 								</div>
-								{/* Drone in hero box - fades out on scroll */}
-								<div
-									className="absolute inset-0 w-full h-full z-10 cursor-grab active:cursor-grabbing"
-									style={{
-										opacity: droneFlying ? 0 : 1,
-										transition: 'opacity 0.8s ease-in-out',
-									}}
-								>
+								{/* Drone in hero box */}
+								<div className="absolute inset-0 w-full h-full z-10 cursor-grab active:cursor-grabbing">
 									<ThreeDDroneCanvas scrollReact={false} />
 								</div>
-								{/* Deployed label - fades in on scroll */}
-								<div
-									className="absolute inset-0 flex items-center justify-center pointer-events-none"
-									style={{
-										opacity: droneFlying ? 1 : 0,
-										transition: 'opacity 0.8s ease-in-out',
-									}}
-								>
-									<span className="text-[10px] font-mono text-tech-accent-light/30 uppercase tracking-widest">UAV DEPLOYED</span>
-								</div>
 							</div>
-							
 						</div>
+
 					</div>
 				</div>
 				
-				{/* Prompt Scroll Down (Moved outside the grid to center properly on screen) */}
+				{/* Prompt Scroll Down */}
 				<div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-[10px] text-tech-muted font-mono tracking-[0.2em] uppercase animate-bounce pointer-events-none z-30">
 					<span>Initialize Recon</span>
 					<ArrowDown className="w-3.5 h-3.5 mt-1 text-tech-accent-light" />
@@ -299,11 +226,11 @@ export default function Home() {
 							<ScrollReveal direction="left">
 								<div className="space-y-1">
 									<span className="text-[11px] font-mono text-tech-accent-light font-bold uppercase tracking-[0.3em] block">
-										Startup Vision
+										Vektor Dynamics Ecosystem
 									</span>
 									<h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-tech-text font-display uppercase">
 										Redefining<br />
-										<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-[#00FFCC] glow-text">
+										<span className="text-transparent bg-clip-text bg-gradient-to-r from-tech-accent-light to-tech-accent-dark glow-text">
 											Disaster Response
 										</span>
 									</h2>
@@ -312,21 +239,21 @@ export default function Home() {
 
 							<ScrollReveal direction="left" delay={150}>
 								<p className="text-tech-muted leading-relaxed font-space text-base">
-									Jatayu is a Delhi-based deep-tech startup pioneering autonomous drone systems for smart disaster response. Our mission is to save lives through cutting-edge AI and indigenous technology.
+									Jatayu is our flagship product—a high-performance autonomous drone system engineered for smart disaster response. Built on a robust indigenous foundation, it operates within the broader Vektor Dynamics ecosystem, which includes our full lineup of tactical hardware and an advanced AI intelligence service for existing enterprise platforms.
 								</p>
 							</ScrollReveal>
 
-							<ScrollReveal direction="left" delay={250}>
-								<p className="text-tech-muted leading-relaxed font-space text-sm">
-									Built on the Tarot 650 Iron Man CF frame and powered by the RDK X5 flight controller, our drones combine durability with precision. When disaster strikes, every second counts—Jatayu ensures rapid detection, real-time 3D mapping, and autonomous supply delivery where it matters most.
-								</p>
-							</ScrollReveal>
-
-							{/* Quote */}
-							<ScrollReveal direction="left" delay={350}>
-								<div className="border-l-2 border-tech-accent-light bg-[#0d1627]/50 p-4 rounded-r-md font-mono text-xs sm:text-sm text-tech-accent-light italic">
-									"When nature's fury strikes, Jatayu takes flight. Autonomous, intelligent, and relentless in its mission to protect humanity."
-								</div>
+							<ScrollReveal direction="left" delay={200}>
+								<ul className="space-y-4">
+									<li className="flex items-start space-x-3">
+										<CheckCircle className="w-5 h-5 text-tech-accent-light mt-0.5 shrink-0" />
+										<span className="text-tech-muted">Command center dashboards mapping fleet health globally</span>
+									</li>
+									<li className="flex items-start space-x-3">
+										<CheckCircle className="w-5 h-5 text-tech-accent-light mt-0.5 shrink-0" />
+										<span className="text-tech-muted">End-to-end encrypted video streaming with military protocols</span>
+									</li>
+								</ul>
 							</ScrollReveal>
 
 							{/* Features Grid */}
@@ -354,18 +281,28 @@ export default function Home() {
 								</ScrollReveal>
 							</div>
 						</div>
-
-						{/* Right: Globe canvas viewport */}
-						<div className="lg:col-span-5 h-[450px] relative">
+						<div className="lg:col-span-5 h-[400px] relative">
 							<ScrollReveal direction="right" delay={200} className="w-full h-full">
 								<div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
 									<div className="w-72 h-72 rounded-full bg-tech-accent-light/10 filter blur-3xl"></div>
 								</div>
-								<div className="w-full h-full rounded-lg relative overflow-hidden bg-gradient-to-b from-[#090f1d]/20 to-transparent">
+								<div className="w-full h-full rounded-lg relative overflow-hidden bg-gradient-to-b from-[#090f1d]/20 to-transparent flex items-center justify-center p-8">
 									<div className="absolute top-4 left-4 font-mono text-[10px] text-tech-accent-light/50 uppercase tracking-widest pointer-events-none">
-										Telemetry Map Grid (Drag Globe)
+										2D Telemetry Overview
 									</div>
-									<ThreeDGlobeCanvas />
+									{/* Lightweight 2D SVG Map */}
+									<svg viewBox="0 0 1000 500" className="w-full h-full opacity-60 drop-shadow-[0_0_10px_rgba(252,211,77,0.3)] text-tech-accent-light">
+										<path fill="currentColor" opacity="0.3" d="M120.3 75.8c-2.4 1.2-4.1 3-5.2 5.5-1 2.3-1.2 5.1-.5 7.8 1.4 5.3 6.1 8.8 11.6 8.8 2.2 0 4.3-.6 6.1-1.8 1.5-1 2.8-2.4 3.6-4.1 1.2-2.4 1.4-5.3.6-7.8-1.4-4.5-5.3-7.8-10-8.5-2.2-.3-4.4 0-6.2.1zM280.4 60.1c-1.5.8-2.8 2.1-3.6 3.6-.8 1.5-1.2 3.3-1.2 5.1s.4 3.6 1.2 5.1c.8 1.5 2.1 2.8 3.6 3.6 1.5.8 3.3 1.2 5.1 1.2s3.6-.4 5.1-1.2c1.5-.8 2.8-2.1 3.6-3.6.8-1.5 1.2-3.3 1.2-5.1s-.4-3.6-1.2-5.1c-.8-1.5-2.1-2.8-3.6-3.6-1.5-.8-3.3-1.2-5.1-1.2s-3.6.4-5.1 1.2zM80.2 140.5c-2.1 1.1-3.8 2.8-4.9 4.9-1.1 2.1-1.7 4.5-1.7 6.9s.6 4.8 1.7 6.9c1.1 2.1 2.8 3.8 4.9 4.9 2.1 1.1 4.5 1.7 6.9 1.7s4.8-.6 6.9-1.7c2.1-1.1 3.8-2.8 4.9-4.9 1.1-2.1 1.7-4.5 1.7-6.9s-.6-4.8-1.7-6.9c-1.1-2.1-2.8-3.8-4.9-4.9-2.1-1.1-4.5-1.7-6.9-1.7s-4.8.6-6.9 1.7zM150.3 220.1c-1.8.9-3.3 2.4-4.2 4.2-.9 1.8-1.4 3.9-1.4 6 s.5 4.2 1.4 6c.9 1.8 2.4 3.3 4.2 4.2 1.8.9 3.9 1.4 6 1.4s4.2-.5 6-1.4c1.8-.9 3.3-2.4 4.2-4.2.9-1.8 1.4-3.9 1.4-6s-.5-4.2-1.4-6c-.9-1.8-2.4-3.3-4.2-4.2-1.8-.9-3.9-1.4-6-1.4s-4.2.5-6 1.4z" />
+										<path fill="currentColor" opacity="0.6" d="M720.5 80.2c-3.1 1.6-5.6 4.1-7.2 7.2-1.6 3.1-2.4 6.6-2.4 10.1s.8 7 2.4 10.1c1.6 3.1 4.1 5.6 7.2 7.2 3.1 1.6 6.6 2.4 10.1 2.4s7-.8 10.1-2.4c3.1-1.6 5.6-4.1 7.2-7.2 1.6-3.1 2.4-6.6 2.4-10.1s-.8-7-2.4-10.1c-1.6-3.1-4.1-5.6-7.2-7.2-3.1-1.6-6.6-2.4-10.1-2.4s-7 .8-10.1 2.4zM850.1 180.4c-2.5 1.3-4.6 3.4-5.9 5.9-1.3 2.5-2 5.4-2 8.3s.7 5.8 2 8.3c1.3 2.5 3.4 4.6 5.9 5.9 2.5 1.3 5.4 2 8.3 2s5.8-.7 8.3-2c2.5-1.3 4.6-3.4 5.9-5.9 1.3-2.5 2-5.4 2-8.3s-.7-5.8-2-8.3c-1.3-2.5-3.4-4.6-5.9-5.9-2.5-1.3-5.4-2-8.3-2s-5.8.7-8.3 2z" />
+										{/* India highlight node */}
+										<circle cx="730.5" cy="190.2" r="12" fill="currentColor" className="animate-pulse" />
+										<circle cx="730.5" cy="190.2" r="30" fill="transparent" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" className="animate-[spin_4s_linear_infinite]" />
+										<path fill="currentColor" opacity="0.3" d="M600.2 250.6c-2.8 1.4-5.1 3.7-6.5 6.5-1.4 2.8-2.1 6-2.1 9.2s.7 6.4 2.1 9.2c1.4 2.8 3.7 5.1 6.5 6.5 2.8 1.4 6 2.1 9.2 2.1s6.4-.7 9.2-2.1c2.8-1.4 5.1-3.7 6.5-6.5 1.4-2.8 2.1-6 2.1-9.2s-.7-6.4-2.1-9.2c-1.4-2.8-3.7-5.1-6.5-6.5-2.8-1.4-6-2.1-9.2-2.1s-6.4.7-9.2 2.1zM500.4 120.3c-1.9 1-3.5 2.6-4.5 4.5-1 1.9-1.5 4.1-1.5 6.3s.5 4.4 1.5 6.3c1 1.9 2.6 3.5 4.5 4.5 1.9 1 4.1 1.5 6.3 1.5s4.4-.5 6.3-1.5c1.9-1 3.5-2.6 4.5-4.5 1-1.9 1.5-4.1 1.5-6.3s-.5-4.4-1.5-6.3c-1-1.9-2.6-3.5-4.5-4.5-1.9-1-4.1-1.5-6.3-1.5s-4.4.5-6.3 1.5z" />
+										{/* Connection lines */}
+										<path d="M730.5 190.2 Q 660 120 720.5 90.3" fill="transparent" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5" />
+										<path d="M730.5 190.2 Q 800 250 858.4 194.6" fill="transparent" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5" />
+										<path d="M730.5 190.2 Q 650 240 609.4 266.3" fill="transparent" stroke="currentColor" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5" />
+									</svg>
 								</div>
 							</ScrollReveal>
 						</div>
@@ -514,7 +451,7 @@ export default function Home() {
 			{/* SIMULATED LAUNCH DIALOG OVERLAY */}
 			{isLaunching && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-tech-bg transition-colors duration-500/90 backdrop-blur-md">
-					<div className="w-full max-w-xl border border-tech-border/40 bg-[#090f1d] rounded-lg shadow-[0_0_30px_rgba(0,255,204,0.3)] overflow-hidden">
+					<div className="w-full max-w-xl border border-tech-border/40 bg-[#090f1d] rounded-lg shadow-[0_0_30px_rgba(252,211,77,0.3)] overflow-hidden">
 						{/* Title Terminal bar */}
 						<div className="bg-tech-surface px-4 py-3 flex items-center justify-between border-b border-tech-border/20">
 							<div className="flex items-center space-x-2">
@@ -548,7 +485,7 @@ export default function Home() {
 							{launchStep < 8 ? (
 								<div className="flex items-center space-x-1.5 text-tech-text animate-pulse">
 									<span>{'>'}</span>
-									<span className="w-2.5 h-4 bg-cyan-400"></span>
+									<span className="w-2.5 h-4 bg-tech-accent-light"></span>
 								</div>
 							) : (
 								<div className="flex items-center space-x-2 text-tech-accent-dark bg-tech-accent-dark/10 p-3 rounded border border-tech-accent-dark/30 mt-4 animate-bounce">
@@ -569,23 +506,6 @@ export default function Home() {
 					</div>
 				</div>
 			)}
-
-			{/* Floating drone - always rendered, moves smoothly between corners */}
-			<div
-				style={{
-					position: 'fixed',
-					...getDroneFloatStyle(),
-					width: '180px',
-					height: '180px',
-					zIndex: 45,
-					pointerEvents: 'auto',
-					cursor: 'grab',
-					opacity: droneFlying ? 1 : 0,
-					transition: 'opacity 0.6s ease-in-out, top 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-				}}
-			>
-				<ThreeDDroneCanvas scrollReact={false} />
-			</div>
 
 			<Footer />
 		</div>

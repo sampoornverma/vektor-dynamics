@@ -3,6 +3,7 @@ import multer from 'multer';
 import Contact from '../models/contact.model.js';
 import Application from '../models/application.model.js';
 import { sendMail } from '../util/mail.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const router = express.Router();
 
@@ -143,6 +144,51 @@ router.use((err, req, res, next) => {
 		return res.status(400).json({ success: false, error: err.message });
 	}
 	next();
+});
+
+// Interactive Terminal RAG API (Gemini)
+router.post('/chat', async (req, res) => {
+	const { message } = req.body;
+
+	if (!message) {
+		return res.status(400).json({ success: false, error: 'Message payload is required.' });
+	}
+
+	if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your_gemini_api_key_here') {
+		return res.status(503).json({ 
+			success: false, 
+			error: 'SYSTEM HALT: AI API Key is missing. Please configure GEMINI_API_KEY in the backend server environment.' 
+		});
+	}
+
+	try {
+		const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+		
+		// The system instructions to strictly constrain the model's behavior.
+		const systemInstruction = `
+You are the VektorOS Terminal Assistant.
+Your ONLY purpose is to answer questions regarding Vektor Dynamics, the Jatayu drone series, and related enterprise AI lineups.
+- Jatayu is our flagship autonomous drone system engineered for smart disaster response, built on indigenous technology.
+- The Vektor Dynamics ecosystem includes a full lineup of tactical hardware and an advanced AI intelligence service.
+If the user asks a question UNRELATED to Vektor Dynamics or its products, you MUST refuse to answer and state: "RESTRICTED: Query falls outside of Vektor Dynamics operational parameters. Request denied."
+Keep your responses short, concise, and formatted as a terminal response (no markdown headers, use simple text).
+		`.trim();
+
+		// Use the recommended model for text-only input with system instructions
+		const model = genAI.getGenerativeModel({
+			model: "gemini-1.5-flash",
+			systemInstruction: systemInstruction,
+		});
+
+		const result = await model.generateContent(message);
+		const responseText = result.response.text();
+
+		return res.status(200).json({ success: true, reply: responseText });
+
+	} catch (error) {
+		console.error('Error in /chat endpoint (Gemini API):', error);
+		return res.status(500).json({ success: false, error: 'Vektor AI Gateway encountered a critical fault processing the request.' });
+	}
 });
 
 export default router;

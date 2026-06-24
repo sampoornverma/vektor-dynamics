@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, Shield, Terminal } from 'lucide-react';
 import { useTheme } from '../lib/ThemeContext.jsx';
-import InteractiveTerminal from './InteractiveTerminal.jsx';
 
 export default function Footer() {
 	const { theme } = useTheme();
@@ -17,7 +16,7 @@ export default function Footer() {
 					<div className="md:col-span-2 space-y-4">
 						<Link to="/" className="flex items-center space-x-2">
 							<img 
-								src="/logo.png" 
+								src={`${import.meta.env.BASE_URL}logo.png`} 
 								alt="Vektor Dynamics Logo" 
 								className="h-14 md:h-16 w-auto object-contain transition-all duration-500 scale-[2.0] origin-left -ml-4"
 								style={{ 
@@ -28,8 +27,6 @@ export default function Footer() {
 						<p className="text-sm text-tech-muted max-w-sm">
 							Pioneering autonomous UAV platforms and AI-driven disaster response systems to protect communities and save lives. Designed and manufactured entirely in India.
 						</p>
-						{/* Interactive Terminal */}
-						<InteractiveTerminal />
 					</div>
 
 					{/* Navigation Links */}
